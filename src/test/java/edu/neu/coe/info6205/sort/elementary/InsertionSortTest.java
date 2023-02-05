@@ -12,8 +12,7 @@ import edu.neu.coe.info6205.util.StatPack;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -137,6 +136,68 @@ public class InsertionSortTest {
         final int fixes = (int) statPack.getStatistics(InstrumentedHelper.FIXES).mean();
         System.out.println(statPack);
         assertEquals(inversions, fixes);
+    }
+
+    @Test
+    public void sortPartialOrderedArrays() throws Exception {
+        int n = 320;
+        Integer[] integers = RandomArray(n);
+        Arrays.sort(integers, 0, (4*n)/10);
+        int run = 100000;
+        System.out.println("Average time taken to sort " + n +" partially ordered arrays is " + RunBenchmark(run, n, integers) + "\n");
+    }
+
+    @Test
+    public void sortReverseOrderedArrays() throws Exception {
+        int n = 320;
+        Integer[] integers = RandomArray(n);
+        Arrays.sort(integers);
+        Collections.reverse(Arrays.asList(integers));
+        int run = 100000;
+        System.out.println("Average time taken to sort " + n +" reverse ordered arrays is " + RunBenchmark(run, n, integers) + "\n");
+    }
+
+    @Test
+    public void sortOrderedArrays() throws Exception {
+        int n = 320;
+        Integer[] integers = RandomArray(n);
+        Arrays.sort(integers);
+        int run = 100000;
+        System.out.println("Average time taken to sort " + n +" ordered arrays is " + RunBenchmark(run, n, integers) + "\n");
+    }
+
+    @Test
+    public void sortRandomOrderedArrays() throws Exception {
+        int n = 320;
+        Integer[] integers = RandomArray(n);
+        int run = 100000;
+        System.out.println("Average time taken to sort " + n +" random ordered arrays is " + RunBenchmark(run, n, integers) + "\n");
+    }
+
+    public long RunBenchmark(int run, int n, Integer[] integers) {
+        Integer[] arrayCopy = Arrays.copyOf(integers, n);
+        int i = run;
+        long time = 0;
+        InsertionSort insertionSort = new InsertionSort();
+        while (i-- != 0) {
+            long startTime = System.nanoTime();
+            insertionSort.sort(arrayCopy,0, n);
+            long endTime = System.nanoTime();
+            time = time + (endTime - startTime);
+            arrayCopy = Arrays.copyOf(integers, n);
+        }
+        time = time/run;
+        return time;
+    }
+
+    public Integer[] RandomArray(int n) {
+        int i;
+        Random random = new Random();
+        Integer[] integers = new Integer[n];
+        for(i=0; i<n; i++) {
+            integers[i] = random.nextInt(n);
+        }
+        return integers;
     }
 
     final static LazyLogger logger = new LazyLogger(InsertionSort.class);
