@@ -1,0 +1,6 @@
+N,Time,hits:Mean,hits:StdDev,hits:NormalizedMean,swaps:Mean,swaps:StdDev,swaps:NormalizedMean,compares:Mean,compares:StdDev,compares:NormalizedMean,fixes:Mean,fixes:StdDev,fixes:NormalizedMean
+10000,11.133966599999999,
+20000,11.7096002,
+40000,22.5612584,
+80000,43.9586748,
+160000,128.5296998,
